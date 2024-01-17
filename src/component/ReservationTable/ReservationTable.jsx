@@ -11,10 +11,15 @@ function ReservationTable({
   valuePerson,
   valuePhone,
   valueDatePicker,
+  handleClick,
+  changeName,
+  changePhone,
+  changePerson,
+  handleChange,
 }) {
   const dispatch = useDispatch();
 
-  const [nma, setNameHere] = useState("");
+  // const [nma, setNameHere] = useState("");
 
   const reserve = () => {
     // dispatch(setName(nma));
@@ -34,7 +39,6 @@ function ReservationTable({
             justifyContent: "center",
             // background: "pink",
           }}
-          id="reserve"
         >
           <Divider sx={{ width: "2px", height: "15vh", background: "wheat" }} />
         </div>
@@ -50,6 +54,7 @@ function ReservationTable({
             color: "white",
             gap: "2em",
           }}
+          id="reserve"
         >
           <div style={{ fontSize: "50px" }}>RESERVATIONS</div>
           <small>Book your table online now</small>
@@ -74,28 +79,36 @@ function ReservationTable({
             value={valueName}
             helperText={"Name"}
             width={"40vw"}
+            onchange={changeName}
           />
           <CustomTextField
             value={valuePhone}
             helperText={"Phone"}
             width={"40vw"}
+            onchange={changePhone}
           />
           <CustomTextField
             value={valuePerson}
             helperText={"Number of persons"}
             width={"40vw"}
+            onchange={changePerson}
           />
-          <AmPMCustomization valueDatePicker={valueDatePicker} />
+          <AmPMCustomization
+            valueDatePicker={valueDatePicker}
+            change={handleChange}
+          />
           <div
             style={{
               paddingTop: "6vh",
             }}
           >
             <Buttons
-              onClick={() => {
-                reserve();
-              }}
+              // onClick={() => {
+              // reserve();
+              // alert("hello");
+              // }}
               NameBtn={"Make Reservation"}
+              onClick={handleClick}
             />
           </div>
         </div>

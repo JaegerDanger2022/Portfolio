@@ -3,6 +3,7 @@ import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
 import { combineReducers } from "@reduxjs/toolkit";
 import userFormReducer from "./Slices/UserFormSlice";
+import FoodDataReducer from "./Slices/FoodDataSlice";
 
 // Store
 const persistConfig = {
@@ -15,6 +16,7 @@ const persistConfig = {
 // Slice
 const reducer = combineReducers({
   UserForm: userFormReducer,
+  FoodData: FoodDataReducer,
 });
 
 // Action

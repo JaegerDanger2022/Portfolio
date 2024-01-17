@@ -7,6 +7,7 @@ import Footer from "../component/Footer/Footer";
 import Swipper from "../features/Swip";
 import ReservationTable from "../component/ReservationTable/ReservationTable";
 import { Link } from "react-router-dom";
+import { doc, setDoc } from "@firebase/firestore";
 
 // Imported images
 import image1 from "../assets/delicious-fried-chicken-plate.jpg";
@@ -16,54 +17,24 @@ import image4 from "../assets/closeup-roasted-meat-with-sauce-vegetables-fries-p
 import ContactMap from "../component/Contact&Map/Contact&Map";
 
 // Imported ID's
-import { async, uuidv4 } from "@firebase/util";
+import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  selectUserfoodData,
-  setFoodData,
-} from "../manager/Slices/UserFormSlice";
+import { db } from "../fireBase/FireBase";
+import { selectFoodData } from "../manager/Slices/FoodDataSlice";
 
 function Home() {
   //
-  const dispatch = useDispatch();
 
-  const retrievedApiData = () => {
-    dispatch(setFoodData());
-  };
+  const allFoodData = useSelector(selectFoodData);
+  // console.log(allFoodData.length);
 
   // Images
-  const images = [
-    { image: image1, name: "chicken" },
-    { image: image2, name: "soup" },
-    { image: image3, name: "soup" },
-    { image: image4, name: "meat" },
-  ];
-
-  // const url =
-  //   "https://recipe-by-api-ninjas.p.rapidapi.com/v1/recipe?query=italian%20wedding%20soup";
-  // const options = {
-  //   method: "GET",
-  //   headers: {
-  //     "X-RapidAPI-Key": "fa92966ad4msh1f6b2f217151953p1dedadjsnbe3f3d0d9eb2",
-  //     "X-RapidAPI-Host": "recipe-by-api-ninjas.p.rapidapi.com",
-  //   },
-  // };
-  // const [foodData, setFoodData] = useState([]);
-  // console.log(foodData);
-
-  // useEffect(() => {
-  //   const dataRetrieve = async () => {
-  //     try {
-  //       const response = await fetch(url, options);
-  //       const result = await response.json();
-  //       console.log(result);
-  //       setFoodData(result);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   dataRetrieve();
-  // }, []);
+  // const images = [
+  //   { image: image1, name: "chicken" },
+  //   { image: image2, name: "soup" },
+  //   { image: image3, name: "soup" },
+  //   { image: image4, name: "meat" },
+  // ];
 
   // Names For Values Using useState
   const [name, setName] = useState("");
@@ -73,6 +44,7 @@ function Home() {
   //
   const handleDataBase = async () => {
     try {
+      // alert("Clks");
       if (name.length !== 0 && phone.length !== 0 && person.length !== 0) {
         const uuid = uuidv4();
         // alert(uuid);
@@ -80,13 +52,14 @@ function Home() {
           userName: name,
           UserPhoneNumber: phone,
           UserPersons: person,
+
           accountId: uuid,
         });
         setName("");
         setPhone("");
         setPerson("");
       } else {
-        alert("All field require sir/madam");
+        alert("All field require ");
       }
     } catch (error) {
       alert("Error");
@@ -237,14 +210,15 @@ function Home() {
                   gap: "1em",
                 }}
               >
-                {images?.map((data, index) => {
-                  // const { pics, names } = data;
+                {allFoodData.slice(0, 4).map((data, index) => {
+                  const { strMealThumb, strMeal } = data;
+
                   return (
                     <>
                       <Cards
                         key={index}
-                        src={data.image}
-                        dishName={data.name}
+                        src={strMealThumb}
+                        dishName={strMeal}
                       />
                     </>
                   );
@@ -318,7 +292,30 @@ function Home() {
                   flexDirection: "column",
                 }}
               >
-                <ReservationTable />
+                <ReservationTable
+                  // Sender
+                  handleClick={() => {
+                    handleDataBase();
+                  }}
+                  // values
+                  valueName={name}
+                  valuePhone={phone}
+                  valuePerson={person}
+                  // valueDatePicker={date}
+                  //Event
+                  changeName={(event) => {
+                    setName(event.target.value);
+                  }}
+                  changePhone={(event) => {
+                    setPhone(event.target.value);
+                  }}
+                  changePerson={(event) => {
+                    setPerson(event.target.value);
+                  }}
+                  // handleChange={(event) => {
+                  //   setDate(event.target.value);
+                  // }}
+                />
               </div>
               {/* End Of Flex */}
             </div>

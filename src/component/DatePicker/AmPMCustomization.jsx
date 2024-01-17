@@ -11,7 +11,7 @@ import { DateTimePicker } from "@mui/x-date-pickers";
 
 // const locales = ["en", "en-gb", "de"];
 
-export default function AmPMCustomization({ valueDatePicker }) {
+export default function AmPMCustomization({ valueDatePicker, change }) {
   const [locale, setLocale] = React.useState("en");
 
   return (
@@ -37,6 +37,7 @@ export default function AmPMCustomization({ valueDatePicker }) {
           value={valueDatePicker}
           label="Uncontrolled picker"
           defaultValue={""}
+          onChange={change}
         />
       </Stack>
     </LocalizationProvider>

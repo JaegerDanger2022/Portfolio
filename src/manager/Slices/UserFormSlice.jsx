@@ -9,7 +9,6 @@ export const UserFormSlice = createSlice({
       CardNumber: "",
       ExpirationDate: "",
     },
-    foodData: [],
   },
 
   reducers: {
@@ -19,16 +18,12 @@ export const UserFormSlice = createSlice({
     setAge: (state, action) => {
       state.Age = action.payload;
     },
-    setFoodData: (state, action) => {
-      state.foodData = action.payload;
-    },
   },
 });
 
-export const selectUserName = (state) => state.UserFormSlice.Name;
-export const selectUserAge = (state) => state.UserFormSlice.Age;
-export const selectUserfoodData = (state) => state.UserFormSlice.foodData;
+export const selectUserName = (state) => state.UserForm.Name;
+export const selectUserAge = (state) => state.UserForm.Age;
 
-export const { setName, setAge, setFoodData } = UserFormSlice.actions;
+export const { setName, setAge } = UserFormSlice.actions;
 
 export default UserFormSlice.reducer;

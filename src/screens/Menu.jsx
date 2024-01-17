@@ -4,42 +4,10 @@ import Footer from "../component/Footer/Footer";
 import ReservationTable from "../component/ReservationTable/ReservationTable";
 import ScreensHead from "../component/screensHeader/ScreensHead";
 import { useDispatch, useSelector } from "react-redux";
-import { setFoodData } from "../manager/Slices/UserFormSlice";
+import { selectFoodData } from "../manager/Slices/FoodDataSlice";
 
 function Menu() {
-  const dispatch = useDispatch();
-
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    const fetchAllMeals = async () => {
-      const meals = [];
-      for (let i = 97; i < 123; i++) {
-        try {
-          const response = await fetch(
-            `https://www.themealdb.com/api/json/v1/1/search.php?f=${String.fromCharCode(
-              i
-            )}`
-          );
-
-          const data = await response.json();
-          meals.push(data.meals);
-        } catch (error) {
-          console.log("Error:", error);
-        }
-      }
-
-      const filterAll = meals
-        .filter((data) => data !== null)
-        .flatMap((data) => data.map((item) => item));
-
-      dispatch(setFoodData(filterAll));
-      setData(filterAll);
-      // console.log("Apessss", filterAll);
-    };
-
-    fetchAllMeals();
-  }, [dispatch]);
+  const data = useSelector(selectFoodData);
 
   return (
     <>
